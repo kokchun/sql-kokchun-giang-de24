@@ -1,1 +1,1 @@
-# sql-kokchun-giang-de24
+# SQL course using duckdb
