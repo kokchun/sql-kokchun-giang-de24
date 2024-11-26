@@ -52,13 +52,54 @@ ORDER BY total_searches DESC;
 
 
 
-
+-- left for reader
 
 -- most popular food in summer 
-
+SELECT
+	week,
+	food,
+	SUM(number_searches) total_searches
+FROM
+	main.cleaned_food
+WHERE
+	week BETWEEN '20' AND '35'
+GROUP BY
+	week,
+	food
+ORDER BY total_searches
+;
 
 
 -- most popular food in winter 
+
+
+-- exploring 
+-- Q: top food for each year 
+SELECT
+	YEAR,
+	food,
+	SUM(number_searches) AS total_searches
+FROM
+	main.cleaned_food
+GROUP BY
+	YEAR, food
+ORDER BY 
+	YEAR DESC;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
