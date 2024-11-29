@@ -1,14 +1,17 @@
 -- 1. a) ingested data 
-
 -- 1. b)
-SELECT * FROM main.hemnet_data;
+SELECT
+	*
+FROM
+	main.hemnet_data;
 
 -- testing percentage_difference
-SELECT 6950000*0.07;
+SELECT
+	6950000 * 0.07;
 
 -- 486500.00
-SELECT 6950000-6950000*0.07;
-
+SELECT
+	6950000 -6950000 * 0.07;
 
 -- 1 c)
 SELECT
@@ -30,8 +33,8 @@ FROM
 	main.hemnet_data
 ORDER BY
 	final_price DESC
-LIMIT 5;
-
+LIMIT
+	5;
 
 -- 1 f)
 SELECT
@@ -44,8 +47,8 @@ FROM
 	main.hemnet_data
 ORDER BY
 	final_price
-LIMIT 5;
-
+LIMIT
+	5;
 
 -- explore rooms 
 SELECT
@@ -57,11 +60,10 @@ FROM
 WHERE
 	rooms <= 3;
 
-
 -- 1 g)
 SELECT
 	MIN(final_price) AS min,
-	MEDIAN(final_price) AS median,
+	MEDIAN (final_price) AS median,
 	AVG(final_price) AS average,
 	MAX(final_price) AS max
 FROM
@@ -71,17 +73,47 @@ FROM
 -- (delen/hela)*100
 -- antagande 1 rad -> 1 hem
 SELECT
-	COUNT(*)/500*100 AS percent_over_10M
+	COUNT(*) / 500 * 100 AS percentage_over_10M
 FROM
 	main.hemnet_data
 WHERE
-	final_price > 10000000; 
+	final_price > 10000000;
 
 -- lösning med subquery
 SELECT
-	( COUNT(*) * 100.0 / ( SELECT COUNT(*) FROM main.hemnet_data) )AS percentage_over_10
+	(
+		COUNT(*) * 100.0 / (
+			SELECT
+				COUNT(*)
+			FROM
+				main.hemnet_data
+		)
+	) AS percentage_over_10
 FROM
 	main.hemnet_data
 WHERE
 	final_price > 10000000
 
+-- lösning med CTE
+WITH
+	total_homes AS (
+		SELECT
+			COUNT(*) AS total_homes
+		FROM
+			main.hemnet_data
+	),
+	expensive_homes AS (
+		SELECT
+			COUNT(*) AS expensive_homes
+		FROM
+			main.hemnet_data
+		WHERE
+			final_price > 10000000
+	)
+SELECT
+	(expensive_homes / total_homes) * 100 AS percentage_over_10M
+FROM
+	expensive_homes,
+	total_homes;
+
+--
