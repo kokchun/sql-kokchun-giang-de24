@@ -135,6 +135,13 @@ LEFT JOIN sql.exercises e ON
 WHERE exercise IS NOT NULL;
 
 
+SELECT
+	l.study_week , l.content , l.lecture , e.exercise
+FROM
+	sql.exercises e
+LEFT JOIN sql.lectures l  ON
+	l.study_week = e.study_week
+WHERE exercise IS NOT NULL
    
    
    
